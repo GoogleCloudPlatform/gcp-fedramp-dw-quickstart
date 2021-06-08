@@ -1,0 +1,26 @@
+    {
+    "BigQuery Schema": [
+        {
+        "name": "Member_ID",
+        "type": "STRING"
+        },
+        {
+        "name": "First_Name",
+        "type": "STRING"
+        },
+        {
+        "name": "Attendance",
+        "type": "INTEGER"
+        },
+        {
+        "name": "Department",
+        "type": "STRING",
+        "mode": "REQUIRED"
+        },
+        {
+        "name": "Date",
+        "type": "STRING",
+        "mode": "REQUIRED"
+        }
+    ]
+    }
