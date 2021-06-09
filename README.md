@@ -3,18 +3,18 @@
 You can use the =architecture to deploy a marketing data warehouse on Google Cloud. The entire architecture is deployed as two projects using [Cloud Data Protection Toolkit](https://github.com/GoogleCloudPlatform/healthcare-data-protection-suite).  
 
 ## Documentation
-* [Quickstart]()
-* [Prerequisites]()
-  * [Access Control]()
-* [Deployment Phases]()
-  * [Clone the repository]()
-  * [Update the variables in HCL files]()
-  * [Generate terraform files]()
-  * [Architecure deployment using terraform]()
+* [Quickstart](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
+* [Prerequisites](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
+  * [Access Control](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
+* [Deployment Phases](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
+  * [Clone the repository](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
+  * [Update the variables in HCL files](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
+  * [Generate terraform files](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
+  * [Architecure deployment using terraform](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
 * [Architecture diagram]() 
 * [Use case description and user considerations]() 
-* [HCL files]()
-* [Useful FedRAMP links]()
+* [HCL files](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
+* [Useful FedRAMP links](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
 
 ## Quickstart
 
@@ -137,7 +137,7 @@ Note: Variable values used in both commonVariables.hcl and variable.hcl files ar
 
 #### Key Considerations
 In order to edit and customize the deployment to align to your requirements, please consider the following.
-**Note: All the variables stated in the below sections reside in [commonVariables.hcl]() and [variables.hcl](), and must be updated in these two files only.** 
+**Note: All the variables stated in the below sections reside in [commonVariables.hcl](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/Infrastructure/commonVariables.hcl) and [variables.hcl](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/Infrastructure/variables.hcl), and must be updated in these two files only.** 
 
 ##### devops.hcl variables
 
