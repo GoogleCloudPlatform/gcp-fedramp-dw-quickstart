@@ -1,6 +1,9 @@
 # Google Cloud FedRAMP aligned "Marketing Data Warehouse"
 
-You can use the =architecture to deploy a marketing data warehouse on Google Cloud. The entire architecture is deployed as two projects using [Cloud Data Protection Toolkit](https://github.com/GoogleCloudPlatform/healthcare-data-protection-suite).  
+![FedRAMP Aligned Marketing Data Warehouse on Google Cloud](https://user-images.githubusercontent.com/56096409/121441449-b2cf0880-c93e-11eb-91f6-5574cb61e28b.png)
+
+
+You can use the architecture to deploy a marketing data warehouse on Google Cloud. The entire architecture is deployed as two projects using [Cloud Data Protection Toolkit](https://github.com/GoogleCloudPlatform/healthcare-data-protection-suite).  
 
 ## Documentation
 * [Quickstart](https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart/blob/master/README.md)
