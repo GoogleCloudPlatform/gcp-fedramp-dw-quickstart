@@ -139,12 +139,221 @@ Note: Variable values used in both commonVariables.hcl and variable.hcl files ar
 In order to edit and customize the deployment to align to your requirements, please consider the following.
 **Note: All the variables stated in the below sections reside in [commonVariables.hcl]() and [variables.hcl](), and must be updated in these two files only.** 
 
-##### devops variables
+##### devops.hcl variables
+
+The devops.hcl file will:
+* Deploy a devops project, and
+* Create a terraform state storage bucket
+ 
+Ensure that values for devops project ID "devops_project_id" (in variables.hcl) and bucket name "terraform_state_storage_bucket" (in commonVariables.hcl) are globally unique. 
+ 
+Additionally, as needed customize the remaining variables based on the requirements.
+
+
 ##### network.hcl variables
+
+The network.hcl will: 
+* Create two networks i.e., one for the Data Warehouse project and the other for the Logging project. Define Subnets’ primary CIDR ranges as per requirement.
+* Enable Google private service access. 
+ 
+Additionally, as needed customize the remaining variables based on the requirements.
+
+
 ##### logging.hcl variables
+
+The logging.hcl file creates: 
+* Dataflow job with private worker(s)
+* Bigquery dataset and table
+* Pub/Sub Topic and Subscription
+* IAM bindings for access
+
+Define BigQuery table schema (in the logging.hcl file) based on the log sink filter and Pub/Sub messages format. Update the following variables with appropriate values as described.
+* logging_project_id (in commonVariables.hcl): Project ID of the assured workload created for Logging resources deployment.
+* logging_project_region (in commonVariables.hcl): Region selected while creating assured workload logging project.
+* dataflow_temp_storage_bucket_name (in variables.hcl): A globally unique bucket name.
+ 
+Additionally, as needed customize the remaining variables based on the requirements.
+ 
+**Note: Assured workloads for “Logging” and “Data Warehouse” must be created before executing the Data Protection Toolkit. For details, refer to section 3.5 in the Solution Guide.**
+
 ##### datawarehouse.hcl variables
+
+The datawarehouse.hcl file creates:
+* ‘Cloud Storage to BigQuery’ Dataflow jobs
+* Cloud Storage bucket for analytics data import
+* BigQuery Dataset and Tables to store enriched data (transformed)
+* Service Accounts for Dataflow jobs
+* Cloud Storage staging and artifacts bucket for Dataflow jobs.
+* IAM for access
+
+As mentioned below, update the following variables with appropriate values.
+* datawarehouse_project_id (in commonVariables.hcl):  Project ID of the assured workload created for “Data Warehouse” resources deployment.
+* datawarehouse_region (in commonVariables.hcl): Region in which Data Warehouse project resources will be deployed.
+* datawarehouse_dataflow_temp_storage_bucket_name (in commonVariables.hcl): A globally unique bucket name.
+* datawarehouse_custom_data_import_bucket1_name (in variables.hcl): A globally unique bucket name. For the purpose of this architecture, bucket1 is where google analytics, YouTube analytics, Adwords data will be imported
+* datawarehouse_custom_data_import_bucket2_name (in variables.hcl): A globally unique bucket name. . For the purpose of this architecture, bucket2 is where google third party analytics data will be imported
+* datawarehouse_cutom_data_import_bucket1_path_for_dataflow (in variables.hcl): Cloud Storage bucket path of imported analytics data files in import_bucket1
+* datawarehouse_cutom_data_import_bucket2_path_for_dataflow (in variables.hcl): Cloud Storage bucket path of imported analytics data files in import_bucket2
+* datawarehouse_dataflow_pipeline_template_artifacts_storage_bucket_name (in variables.hcl): A globally unique bucket name.
+gcs_to_bq_dataflow_job1_schema_file_local_location (in variables.hcl): Local file path to schema file used in ‘Cloud Storage to BigQuery’ dataflow job1.
+* gcs_to_bq_dataflow_job1_user_defined_function_local_location (in variables.hcl): Local file path to user defined function javascript file used in ‘Cloud Storage to BigQuery’ dataflow job1.
+* gcs_to_bq_dataflow_job2_schema_file_local_location (in variables.hcl): Local file path to schema file used in ‘Cloud Storage to BigQuery’ dataflow job2.
+* gcs_to_bq_dataflow_job2_user_defined_function_local_location (in variables.hcl): Local file path to user defined function javascript file used in ‘Cloud Storage to BigQuery’ dataflow job2.
+
+Additionally, as needed customize the remaining variables based on the requirements.
+
 ##### AI-pipeline.hcl variables
+
+The AI-pipeline.hcl file creates: 
+* ‘BigQuery to Cloud Storage tensorflow records’ dataflow jobs.
+* AI Notebook Deep Learning VM
+* ML model to host versions
+* Service Accounts for Dataflow jobs
+* IAM for access
+ 
+As mentioned below, update the following variables with appropriate values.
+* datawarehouse_bq_to_gcs_dataflow_job1_readquery (in variables.hcl): Query to read data from BigQuery table 1. BigQuery table 1 contains the transformed data from import_bucket1. BigQuery table 1 data is transformed to tensorflow records by ‘BigQuery to Cloud Storage tensorflow records’ dataflow job2.
+* datawarehouse_bq_to_gcs_dataflow_job2_readquery (in variables.hcl): Query to read data from BigQuery table 2. BigQeury table 2 contains the transformed data from import_bucket2. BigQuery table 2 data is transformed to tensorflow records by ‘BigQuery to Cloud Storage tensorflow records’ dataflow job2.
+* datawarehouse_tensorflow_records_storage_bucket_name (in variables.hcl): A globally unique bucket name.
+ 
+Additionally, as needed customize the remaining variables based on the requirements.
+
+
 ##### datalab.hcl variables
+
+The datalab.hcl file creates: 
+* Datalab instance
+* Service Account for Datalab instance
+* IAM for access
+
+As mentioned below, update the following variables with appropriate values.
+* datawarehouseAI_datalab_user_email (in variables.hcl): User email ID to which datalab access is granted.
+ 
+Additionally, as needed customize the remaining variables based on the requirements.
+
+
 ##### appengine.hcl variables
 
+The appengine.hcl file creates: 
+* Appengine Domain mapping.
+* BigQuery Dataset to store Google Tag Manager (GTM) data from Appengine.
+As mentioned below, update the following variables with appropriate values.
+* appengine_mapping_domain_name (in variables.hcl): Domain name that will be mapped to Appengine application.
+ 
+Additionally, as needed customize the remaining variables based on the requirements.
 
+### Generate terraform files
+
+To generate terraform configuration files using tfengine run the following command. This will generate 6 folders/subfolders with terraform configuration files in --output_path location.
+
+Generated folders:
+* devops
+* logging/network
+* logging/workload
+* datawarehouse/network
+* datawarehouse/dataflow-pipeline
+* datawarehouse/AI-pipeline
+* datawarehouse/datalab
+* datawarehouse/appengine
+
+```
+# -config path is the path to downloaded .hcl files
+
+$ tfengine --config_path=/{path-to-variablefile}/commonVariables.hcl --output_path=/{output-path}
+
+# {path-to-variablefile}: path to commonVariable.hcl file.
+# {output-path}: Folder path, where terraform configuration files are generated by tfengine.
+
+```
+
+### Architecture deployment using terraform
+
+After generating terraform configurations using tfengine, run the generated main.tf files in the following order.
+
+* Open DevOps folder and run terraform configuration. This will deploy a project and a terraform state storage bucket in the project with the name of choosing.
+
+```
+$ cd /{output-path}/devops
+$ terraform init
+$ terraform apply
+```
+
+* Once the project and state bucket are deployed, go to devops.hcl Data Protection Toolkit file section shown below, uncomment and set the **enable_gcs_backend** to **true.**
+
+```
+template "devops" {
+  recipe_path = "recipes/devops.hcl"
+  output_path = "./devops"
+  data = {
+    # TODO(user): Uncomment and re-run the engine after the generated devops module has been deployed.
+    # Run `terraform init` in the devops module to backup its state to Cloud Storage.
+    # enable_gcs_backend = true
+
+    admins_group = {
+      id = “{{.admin_group}}”
+      exists = true
+    }
+```
+
+* Run the tfengine command once again and force copy the state to terraform state storage bucket. Further terraform configuration deployments will use this bucket to store terraform state. 
+
+```
+$ tfengine --config_path=/{path}/commonVariables.hcl --output_path=/{path}
+$ cd /{output-path}/devops
+$ terraform init -force-copy
+
+```
+
+* Once states are transferred to the state bucket, deploy network resources in logging project (assured workload). 
+
+```
+$ cd /{output-path}/logging/network
+$ terraform init
+$ terraform apply
+```
+
+* Once logging network is deployed, run the below commands to deploy remaining resources in the logging project (assured workload) such as dataflow, pubsub, bigquery etc.
+
+```
+$ cd /{output-path}/logging/workload
+$ terraform init
+$ terraform apply
+```
+* Deploy the network in datawarehouse/network folder to create network and enable APIs  in Data Warehouse project.
+
+```
+$ cd /{output-path}/datawarehouse/network
+$ terraform init
+$ terraform apply
+```
+
+* Deploy the resources in datawarehouse/dataflow-pipeline folder to create Dataflow jobs, BigQuery dataset and tables, Cloud Storage buckets etc.
+```
+$ cd /{output-path}/datawarehouse/dataflow-pipeline
+$ terraform init
+$ terraform apply
+```
+* Deploy the resources in datawarehouse/AI-pipeline folder to create Dataflow jobs, Notebook Deep Learning VM, AI Model etc.
+```
+$ cd /{output-path}/datawarehouse/AI-pipeline
+$ terraform init
+$ terraform apply
+```
+* Deploy the resource in datawarehouse/datalab folder to create Datalab instance.
+```
+$ cd /{output-path}/datawarehouse/datalab
+$ terraform init
+$ terraform apply
+```
+* Deploy the additional resources in datawarehouse/appengine folder to create App Engine domain mapping, BigQuery dataset etc
+```
+$ cd /{output-path}/datawarehouse/appengine
+$ terraform init
+$ terraform apply
+```
+## Useful FedRAMP links
+
+* [Google Cloud Platform supports FedRAMP compliance](https://cloud.google.com/security/compliance/fedramp/), and provides specific details on the approach to security and data protection in the [Google security whitepaper](https://cloud.google.com/security/overview/whitepaper/) and in the [Google Infrastructure Security Design Overview.](https://cloud.google.com/security/infrastructure/design/)
+* To learn more about Google Cloud's Shared Responsibility Model, refer to the [Google Infrastructure Security Design Overview.](https://cloud.google.com/security/infrastructure/design/)
+* Refer to the [FedRAMP Shared Security Model](https://cloud.google.com/assured-workloads/docs/concept-fedramp-moderate) and [Google Cloud FedRAMP Implementation Guide.](https://cloud.google.com/security/compliance/fedramp-guide) for additional guidance on FedRAMP shared responsibilities for Google Cloud Platform.
+* For details on Google Cloud services covered by FedRAMP, refer to the [FedRAMP Marketplace](https://cloud.google.com/security/compliance/fedramp) by Google.
