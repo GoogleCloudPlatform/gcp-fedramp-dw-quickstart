@@ -273,7 +273,7 @@ $ tfengine --config_path=/{path-to-variablefile}/commonVariables.hcl --output_pa
 
 After generating terraform configurations using tfengine, run the generated main.tf files in the following order.
 
-* Open DevOps folder and run terraform configuration. This will deploy a project and a terraform state storage bucket in the project with the name of choosing.
+* Open the DevOps folder and run the Terraform configuration. This will deploy a project and a Terraform state storage bucket in the project with the name of choosing.
 
 ```
 $ cd /{output-path}/devops
@@ -281,7 +281,7 @@ $ terraform init
 $ terraform apply
 ```
 
-* Once the project and state bucket are deployed, go to devops.hcl Data Protection Toolkit file section shown below, uncomment and set the **enable_gcs_backend** to **true.**
+* After the project and state bucket are deployed, go to devops.hcl file, uncomment or set the **enable_gcs_backend** to **true.** in the devops template recipe.
 
 ```
 template "devops" {
@@ -298,7 +298,7 @@ template "devops" {
     }
 ```
 
-* Run the tfengine command once again and force copy the state to terraform state storage bucket. Further terraform configuration deployments will use this bucket to store terraform state. 
+* Run the tfengine command again and force-copy the state to the Terraform state storage bucket. Further Terraform configuration deployments will use this bucket to store the Terraform state. 
 
 ```
 $ tfengine --config_path=/{path}/commonVariables.hcl --output_path=/{path}
@@ -307,7 +307,7 @@ $ terraform init -force-copy
 
 ```
 
-* Once states are transferred to the state bucket, deploy network resources in logging project (assured workload). 
+* After the states are transferred to the state bucket, deploy network resources in the Logging project (Assured Workload). 
 
 ```
 $ cd /{output-path}/logging/network
@@ -315,14 +315,14 @@ $ terraform init
 $ terraform apply
 ```
 
-* Once logging network is deployed, run the below commands to deploy remaining resources in the logging project (assured workload) such as dataflow, pubsub, bigquery etc.
+* After the  logging network is deployed, run the following commands to deploy the remaining resources in the Logging project (Assured Workload) such as Dataflow, Pub/Sub, BigQuery, and so on:
 
 ```
 $ cd /{output-path}/logging/workload
 $ terraform init
 $ terraform apply
 ```
-* Deploy the network in datawarehouse/network folder to create network and enable APIs  in Data Warehouse project.
+* Deploy the resources in the datawarehouse/network folder to create two networks and enable the APIs in the data warehouse project.
 
 ```
 $ cd /{output-path}/datawarehouse/network
@@ -330,25 +330,25 @@ $ terraform init
 $ terraform apply
 ```
 
-* Deploy the resources in datawarehouse/dataflow-pipeline folder to create Dataflow jobs, BigQuery dataset and tables, Cloud Storage buckets etc.
+* Deploy the resources in datawarehouse/dataflow-pipeline folder to create Dataflow jobs, BigQuery dataset and tables, GCS buckets and so on:
 ```
 $ cd /{output-path}/datawarehouse/dataflow-pipeline
 $ terraform init
 $ terraform apply
 ```
-* Deploy the resources in datawarehouse/AI-pipeline folder to create Dataflow jobs, Notebook Deep Learning VM, AI Model etc.
+* Deploy the resources in datawarehouse/AI-pipeline folder to create Dataflow jobs, Notebook deep learning VM, AI Model and so on:
 ```
 $ cd /{output-path}/datawarehouse/AI-pipeline
 $ terraform init
 $ terraform apply
 ```
-* Deploy the resource in datawarehouse/datalab folder to create Datalab instance.
+* Deploy the resource in datawarehouse/datalab folder to create a Datalab instance.
 ```
 $ cd /{output-path}/datawarehouse/datalab
 $ terraform init
 $ terraform apply
 ```
-* Deploy the additional resources in datawarehouse/appengine folder to create App Engine domain mapping, BigQuery dataset etc
+* Deploy the resources in datawarehouse/appengine folder to create App Engine domain mapping and BigQuery dataset.
 ```
 $ cd /{output-path}/datawarehouse/appengine
 $ terraform init
