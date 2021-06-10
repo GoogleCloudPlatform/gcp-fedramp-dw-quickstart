@@ -101,7 +101,7 @@ $ go install ./cmd/tfengine
 
 ```
 #clone modularised .hcl files from github to a folder in local machine or cloud shell
-$ git clone [ADD LINK]()
+$ git clone https://github.com/GoogleCloudPlatform/gcp-fedramp-dw-quickstart.git
 ```
 
 4. After the HCL files are cloned, configure the variable values in commonVariables.hcl and variable.hcl files based on requirements. Refer the ‘Update the variables in HCL files’ section below for details.
